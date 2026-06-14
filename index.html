@@ -987,7 +987,14 @@ const ACADEMIC_SYNONYMS = {
 };
 const ACADEMIC_WORDS = Object.keys(ACADEMIC_SYNONYMS)
 // Автоматически скачиваем свежие карточки из облака при открытии сайта
-loadCardsFromDB();
+// Ждем полную загрузку страницы, затем скачиваем карточки
+window.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => {
+    if (typeof loadCardsFromDB === 'function') {
+      loadCardsFromDB();
+    }
+  }, 1000); // задержка в 1 секунду, чтобы всё успело инициализироваться
+});
 
 // ────────────────────────────────────────
 // UTILITIES
@@ -1979,8 +1986,13 @@ window.submitLogin = async () => {
     saveVocabToFirebase();
   };
   // Функции для работы с базой данных MongoDB Atlas через Render бэкенд
+// ──────────────────────────────────────────────────────────────────────
+// БАЗА ДАННЫХ MONGODB (ВСТАВЛЯЕМ СТРОГО ПЕРЕД ЗАКРЫВАЮЩИМ ТЕГОМ </script>)
+// ──────────────────────────────────────────────────────────────────────
+
 async function saveCardToDB(word, translation, context = '') {
   try {
+    if (typeof BACKEND_URL === 'undefined') return;
     await fetch(`${BACKEND_URL}/api/cards`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -1993,28 +2005,19 @@ async function saveCardToDB(word, translation, context = '') {
 
 async function loadCardsFromDB() {
   try {
+    if (typeof BACKEND_URL === 'undefined') return;
     const res = await fetch(`${BACKEND_URL}/api/cards`);
     if (res.ok) {
       const dbCards = await res.json();
-      // Преобразуем формат из MongoDB (_id, word, translation...) в формат твоего приложения
       state.vocabulary = dbCards.map(c => ({
         id: c._id,
         word: c.word,
         translation: c.translation,
         context: c.context || ''
       }));
-      // Обновляем localStorage на случай, если пропадет интернет
-      // Твоя старая строчка:
-localStorage.setItem('rl_vocab', JSON.stringify(state.vocabulary));
+      localStorage.setItem('rl_vocab', JSON.stringify(state.vocabulary));
 
-// Добавляем отправку в MongoDB:
-// (Убедись, что переменные называются именно так, либо посмотри как они названы в коде выше этой строки)
-if (typeof word !== 'undefined' && typeof translation !== 'undefined') {
-    saveCardToDB(word, translation, typeof currentContext !== 'undefined' ? currentContext : '');
-}
-
-      // Если в твоем коде есть функция, которая перерисовывает список карточек на экране,
-      // вызови её здесь. Обычно она называется renderVocabulary() или renderCards().
+      // Проверяем, какая функция рендеринга у тебя есть в коде, и вызываем её
       if (typeof renderVocabulary === 'function') renderVocabulary();
       else if (typeof renderCards === 'function') renderCards();
     }
@@ -2022,6 +2025,8 @@ if (typeof word !== 'undefined' && typeof translation !== 'undefined') {
     console.error('Ошибка загрузки карточек из базы:', err);
   }
 }
+
+// ЭТОТ ТЕГ УЖЕ ЕСТЬ В ТВОЕМ ФАЙЛЕ, СЛЕДИ, ЧТОБЫ ФУНКЦИИ БЫЛИ ВЫШЕ НЕГО:
 </script>
 </body>
 </html>
