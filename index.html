@@ -1059,7 +1059,7 @@ $('#extractBtn').addEventListener('click', async () => {
 
   try {
     const res = await fetch(`${BACKEND_URL}/api/parse?url=${encodeURIComponent(url)}`, {
-    signal: AbortSignal.timeout(20000)
+    signal: AbortSignal.timeout(6git add .0000)
 });
     const data = await res.json();
 
