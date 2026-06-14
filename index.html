@@ -1,0 +1,1974 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ReadLens Cinema Edition — IELTS Reading Platform</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F8F7F4;
+  --bg-secondary: #EFEDE9;
+  --bg-card: #FFFFFF;
+  --bg-hover: #F0EEE9;
+  --surface: #FFFFFF;
+  --border: #E2DDD6;
+  --border-light: #EDE9E3;
+  --text-primary: #1A1816;
+  --text-secondary: #6B6560;
+  --text-muted: #9E9891;
+  --accent: #C4622D;
+  --accent-light: #F0E5DC;
+  --accent-hover: #A8501F;
+  --accent2: #2D6E8E;
+  --accent2-light: #DCF0F5;
+  --green: #2A7A4A;
+  --green-light: #E0F2E8;
+  --red: #C0392B;
+  --red-light: #FBEAEA;
+  --gold: #B8860B;
+  --gold-light: #FEF9E7;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow: 0 4px 12px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04);
+  --shadow-lg: 0 16px 40px rgba(0,0,0,0.12), 0 6px 16px rgba(0,0,0,0.06);
+  --shadow-xl: 0 32px 64px rgba(0,0,0,0.16);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-lg: 16px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --sidebar-width: 380px;
+}
+
+[data-theme="dark"] {
+  --bg: #0F0E0C;
+  --bg-secondary: #161512;
+  --bg-card: #1C1A17;
+  --bg-hover: #23201C;
+  --surface: #1C1A17;
+  --border: #2C2822;
+  --border-light: #242018;
+  --text-primary: #F0EDE8;
+  --text-secondary: #9A9388;
+  --text-muted: #6B6358;
+  --accent: #E07840;
+  --accent-light: #2A1C12;
+  --accent-hover: #C86530;
+  --accent2: #4A9AB8;
+  --accent2-light: #0A1C24;
+  --green: #3A9A60;
+  --green-light: #0A1E12;
+  --red: #E05040;
+  --red-light: #200A08;
+  --gold: #D4A017;
+  --gold-light: #1E1600;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow: 0 4px 12px rgba(0,0,0,0.4);
+  --shadow-lg: 0 16px 40px rgba(0,0,0,0.5);
+  --shadow-xl: 0 32px 64px rgba(0,0,0,0.6);
+}
+
+[data-theme="sepia"] {
+  --bg: #F5F0E8;
+  --bg-secondary: #EDE6D8;
+  --bg-card: #FAF6EE;
+  --bg-hover: #EDE5D5;
+  --surface: #FAF6EE;
+  --border: #D4C9B0;
+  --border-light: #DDD4BE;
+  --text-primary: #2C2416;
+  --text-secondary: #7A6A4E;
+  --text-muted: #A08A68;
+  --accent: #8B5A1A;
+  --accent-light: #F0E2CC;
+  --accent-hover: #6E4410;
+  --accent2: #3D6B4F;
+  --accent2-light: #D8EDE0;
+  --green: #3D6B4F;
+  --green-light: #D8EDE0;
+  --red: #8B2A1A;
+  --red-light: #F5DDD8;
+  --gold: #8B6914;
+  --gold-light: #F5EDD5;
+  --shadow-sm: 0 1px 3px rgba(120,80,20,0.08);
+  --shadow: 0 4px 12px rgba(120,80,20,0.1);
+  --shadow-lg: 0 16px 40px rgba(120,80,20,0.14);
+  --shadow-xl: 0 32px 64px rgba(120,80,20,0.18);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--text-primary);
+  font-size: 15px;
+  line-height: 1.6;
+  transition: background 0.4s ease, color 0.4s ease;
+  overflow-x: hidden;
+}
+
+::selection { background: var(--accent); color: #fff; }
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* ── HEADER ── */
+.header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: 58px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 24px;
+  transition: var(--transition);
+  backdrop-filter: blur(12px);
+}
+.header-logo {
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--font-serif); font-size: 18px; font-weight: 700;
+  color: var(--text-primary); text-decoration: none; letter-spacing: -0.3px;
+}
+.header-logo .logo-icon { color: var(--accent); font-size: 20px; }
+.header-logo .logo-sub {
+  font-family: var(--font-sans); font-size: 9px; font-weight: 500;
+  color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px;
+  margin-left: 2px; align-self: flex-end; margin-bottom: 2px;
+}
+.header-actions { display: flex; align-items: center; gap: 8px; }
+
+/* ── THEME SWITCHER ── */
+.theme-switcher {
+  display: flex; align-items: center; gap: 3px;
+  background: var(--bg-secondary); border-radius: 99px;
+  padding: 3px; border: 1px solid var(--border);
+}
+.theme-btn {
+  width: 28px; height: 28px; border-radius: 50%; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; background: transparent; color: var(--text-secondary);
+  transition: var(--transition);
+}
+.theme-btn:hover, .theme-btn.active {
+  background: var(--bg-card); color: var(--accent);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ── ICON BUTTONS ── */
+.icon-btn {
+  width: 34px; height: 34px; border-radius: var(--radius-sm); border: 1px solid var(--border);
+  background: var(--bg-card); color: var(--text-secondary); cursor: pointer;
+  display: flex; align-items: center; justify-content: center; font-size: 14px;
+  transition: var(--transition);
+}
+.icon-btn:hover { background: var(--bg-hover); color: var(--accent); border-color: var(--accent); }
+.icon-btn.active { background: var(--accent-light); color: var(--accent); border-color: var(--accent); }
+
+/* ── MAIN LAYOUT ── */
+.layout {
+  margin-top: 58px;
+  display: flex; min-height: calc(100vh - 58px);
+}
+.main-content {
+  flex: 1; min-width: 0;
+  padding: 28px 28px 80px;
+  transition: var(--transition);
+}
+.main-content.sidebar-open { margin-right: var(--sidebar-width); }
+
+/* ── IMPORT PANEL ── */
+.import-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+.import-tabs {
+  display: flex; border-bottom: 1px solid var(--border);
+  padding: 0 4px;
+}
+.import-tab {
+  display: flex; align-items: center; gap: 7px;
+  padding: 14px 16px; font-size: 13px; font-weight: 500;
+  color: var(--text-secondary); cursor: pointer; border: none;
+  background: none; border-bottom: 2px solid transparent;
+  margin-bottom: -1px; transition: var(--transition);
+  white-space: nowrap;
+}
+.import-tab i { font-size: 13px; }
+.import-tab:hover { color: var(--text-primary); }
+.import-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+.import-body { padding: 24px; }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* URL PANEL */
+.url-input-row {
+  display: flex; gap: 10px; align-items: stretch;
+}
+.url-input {
+  flex: 1; padding: 11px 16px; font-size: 14px;
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  background: var(--bg-secondary); color: var(--text-primary);
+  font-family: var(--font-sans); transition: var(--transition);
+  outline: none;
+}
+.url-input:focus { border-color: var(--accent); background: var(--bg-card); box-shadow: 0 0 0 3px var(--accent-light); }
+.url-input::placeholder { color: var(--text-muted); }
+
+.btn {
+  padding: 10px 20px; border-radius: var(--radius-sm); border: none;
+  font-size: 13px; font-weight: 500; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 7px;
+  transition: var(--transition); font-family: var(--font-sans);
+  white-space: nowrap;
+}
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(196,98,45,0.3); }
+.btn-secondary { background: var(--bg-secondary); color: var(--text-secondary); border: 1px solid var(--border); }
+.btn-secondary:hover { background: var(--bg-hover); color: var(--text-primary); }
+.btn-ghost { background: transparent; color: var(--text-secondary); }
+.btn-ghost:hover { background: var(--bg-hover); color: var(--text-primary); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
+
+/* SKELETON */
+.skeleton-wrap { display: none; margin-top: 18px; }
+.skeleton-wrap.active { display: block; }
+.skeleton-line {
+  height: 14px; border-radius: 4px;
+  background: linear-gradient(90deg, var(--bg-secondary) 25%, var(--bg-hover) 50%, var(--bg-secondary) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-pulse 1.4s ease-in-out infinite;
+  margin-bottom: 10px;
+}
+.skeleton-line:last-child { width: 60%; }
+@keyframes skeleton-pulse {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* TEXT TAB */
+.text-area-wrap { position: relative; }
+.text-area {
+  width: 100%; min-height: 160px; padding: 14px; font-size: 14px;
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  background: var(--bg-secondary); color: var(--text-primary);
+  font-family: var(--font-sans); line-height: 1.7; resize: vertical;
+  transition: var(--transition); outline: none;
+}
+.text-area:focus { border-color: var(--accent); background: var(--bg-card); box-shadow: 0 0 0 3px var(--accent-light); }
+.text-area::placeholder { color: var(--text-muted); }
+.complexity-badge {
+  display: none; margin-top: 10px;
+  padding: 6px 14px; border-radius: 99px; font-size: 12px; font-weight: 600;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.complexity-badge.intermediate { background: var(--accent2-light); color: var(--accent2); }
+.complexity-badge.advanced { background: var(--accent-light); color: var(--accent); }
+.complexity-badge.academic { background: var(--gold-light); color: var(--gold); }
+.complexity-badge.hidden { display: none !important; }
+
+.text-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; flex-wrap: wrap; gap: 10px; }
+
+/* UPLOAD TAB */
+.upload-zone {
+  border: 2px dashed var(--border); border-radius: var(--radius);
+  padding: 48px 24px; text-align: center; cursor: pointer;
+  transition: var(--transition); background: var(--bg-secondary);
+}
+.upload-zone:hover, .upload-zone.drag-over {
+  border-color: var(--accent); background: var(--accent-light);
+}
+.upload-zone i { font-size: 36px; color: var(--text-muted); margin-bottom: 12px; display: block; }
+.upload-zone h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+.upload-zone p { font-size: 13px; color: var(--text-secondary); }
+.upload-zone input { display: none; }
+.upload-progress { display: none; margin-top: 16px; }
+.upload-progress.active { display: block; }
+.progress-bar-wrap { height: 4px; background: var(--bg-secondary); border-radius: 99px; overflow: hidden; }
+.progress-bar { height: 100%; background: var(--accent); border-radius: 99px; transition: width 0.3s ease; width: 0; }
+
+/* OCR TAB */
+.ocr-zone { position: relative; }
+.ocr-preview { display: none; max-height: 200px; width: 100%; object-fit: contain; border-radius: var(--radius-sm); margin-top: 12px; }
+.ocr-status { margin-top: 12px; font-size: 13px; color: var(--text-secondary); display: flex; align-items: center; gap: 8px; }
+.ocr-spinner { width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; display: none; }
+.ocr-spinner.active { display: block; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── READER TOOLBAR ── */
+.reader-toolbar {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 10px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 10px 16px;
+  margin-bottom: 18px; box-shadow: var(--shadow-sm);
+}
+.toolbar-group { display: flex; align-items: center; gap: 6px; }
+.toolbar-label {
+  font-size: 11px; font-weight: 600; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 0.8px; margin-right: 4px;
+}
+.font-size-display {
+  font-size: 13px; font-weight: 600; color: var(--text-secondary);
+  min-width: 32px; text-align: center;
+}
+.toggle-btn {
+  padding: 6px 12px; border-radius: 99px; border: 1px solid var(--border);
+  background: var(--bg-secondary); color: var(--text-secondary);
+  font-size: 12px; font-weight: 500; cursor: pointer; transition: var(--transition);
+  display: flex; align-items: center; gap: 5px;
+}
+.toggle-btn:hover { border-color: var(--accent); color: var(--accent); }
+.toggle-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+/* ── READER AREA ── */
+.reader-wrap {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); box-shadow: var(--shadow);
+  padding: 48px 60px; min-height: 300px;
+  position: relative;
+  transition: var(--transition);
+}
+.reader-wrap.zen-dimmed::before {
+  content: ''; position: fixed; inset: 0;
+  background: var(--bg); opacity: 0.85; z-index: 5;
+  pointer-events: none;
+}
+.reader-content {
+  font-family: var(--font-serif);
+  font-size: 18px; line-height: 1.9;
+  color: var(--text-primary);
+  max-width: 72ch; margin: 0 auto;
+  position: relative; z-index: 6;
+}
+.reader-content.sans { font-family: var(--font-sans); }
+.reader-empty {
+  text-align: center; padding: 60px 20px;
+  color: var(--text-muted);
+}
+.reader-empty i { font-size: 48px; margin-bottom: 16px; display: block; opacity: 0.4; }
+.reader-empty h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; color: var(--text-secondary); }
+.reader-empty p { font-size: 14px; }
+
+.reader-paragraph { margin-bottom: 1.5em; }
+
+.word-token {
+  cursor: pointer; border-radius: 2px;
+  transition: background 0.15s;
+  display: inline;
+}
+.word-token:hover { background: var(--accent-light); color: var(--accent); }
+
+/* Academic words */
+.academic-word {
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  text-decoration-color: var(--accent2);
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+/* Topic sentence highlight (Skimming Mode) */
+.topic-sentence .word-token { background: rgba(184, 134, 11, 0.12); }
+
+/* Bionic reading */
+.bionic-bold { font-weight: 700; }
+
+/* Skimming scroll */
+@keyframes skimScroll {
+  from { transform: translateY(0); }
+  to { transform: translateY(-100%); }
+}
+
+/* ── WORD TOOLTIP ── */
+.word-tooltip {
+  position: fixed; z-index: 200;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); box-shadow: var(--shadow-lg);
+  padding: 16px 18px; min-width: 260px; max-width: 340px;
+  display: none; animation: tooltipIn 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.word-tooltip.visible { display: block; }
+@keyframes tooltipIn {
+  from { opacity: 0; transform: translateY(6px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.tooltip-word {
+  font-family: var(--font-serif); font-size: 20px; font-weight: 700;
+  color: var(--text-primary); margin-bottom: 4px;
+  display: flex; align-items: center; gap: 8px;
+}
+.tooltip-phonetic { font-size: 13px; color: var(--text-muted); font-family: var(--font-sans); font-weight: 400; }
+.tooltip-pos {
+  display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.8px; background: var(--accent-light); color: var(--accent);
+  border-radius: 4px; padding: 2px 6px; margin-bottom: 8px;
+}
+.tooltip-definition { font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 12px; }
+.tooltip-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+.tooltip-btn {
+  padding: 5px 11px; border-radius: 6px; border: 1px solid var(--border);
+  background: var(--bg-secondary); color: var(--text-secondary);
+  font-size: 12px; font-weight: 500; cursor: pointer;
+  display: flex; align-items: center; gap: 5px; transition: var(--transition);
+  font-family: var(--font-sans);
+}
+.tooltip-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+.tooltip-btn.save-btn:hover { border-color: var(--green); color: var(--green); background: var(--green-light); }
+.tooltip-close {
+  position: absolute; top: 10px; right: 10px;
+  width: 22px; height: 22px; border-radius: 50%; border: none;
+  background: var(--bg-secondary); color: var(--text-muted);
+  cursor: pointer; font-size: 11px; display: flex; align-items: center; justify-content: center;
+  transition: var(--transition);
+}
+.tooltip-close:hover { background: var(--bg-hover); color: var(--text-primary); }
+.tooltip-loading { font-size: 13px; color: var(--text-muted); display: flex; align-items: center; gap: 8px; }
+
+/* Phrase tooltip */
+.phrase-tooltip {
+  position: fixed; z-index: 200;
+  background: var(--accent); color: #fff;
+  border-radius: var(--radius-sm); box-shadow: var(--shadow);
+  padding: 6px 12px; font-size: 13px; font-weight: 500;
+  display: none; cursor: pointer; transition: var(--transition);
+  display: flex; align-items: center; gap: 7px;
+}
+.phrase-tooltip:hover { background: var(--accent-hover); }
+.phrase-tooltip.visible { display: flex; animation: tooltipIn 0.15s ease; }
+
+/* ── SYNONYM GAME ── */
+.synonym-game {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); box-shadow: var(--shadow);
+  padding: 28px; margin-top: 24px; display: none;
+}
+.synonym-game.active { display: block; }
+.game-header {
+  display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;
+}
+.game-header h3 { font-family: var(--font-serif); font-size: 18px; font-weight: 700; }
+.game-score {
+  font-size: 13px; font-weight: 600; color: var(--text-secondary);
+  background: var(--bg-secondary); border-radius: 99px; padding: 4px 14px;
+}
+.game-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px;
+}
+.game-card {
+  padding: 14px 10px; border: 2px solid var(--border);
+  border-radius: var(--radius-sm); text-align: center; cursor: pointer;
+  font-size: 14px; font-weight: 500; background: var(--bg-secondary);
+  transition: var(--transition); user-select: none;
+}
+.game-card:hover { border-color: var(--accent); background: var(--accent-light); color: var(--accent); }
+.game-card.selected { border-color: var(--accent2); background: var(--accent2-light); color: var(--accent2); transform: scale(1.03); }
+.game-card.match { border-color: var(--green); background: var(--green-light); color: var(--green); animation: matchFlash 0.5s ease; }
+.game-card.wrong { border-color: var(--red); background: var(--red-light); color: var(--red); animation: shake 0.4s ease; }
+@keyframes matchFlash { 0%,100%{opacity:1;} 50%{opacity:0.6;} }
+@keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)} 40%{transform:translateX(6px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)} }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  position: fixed; top: 58px; right: 0; bottom: 0;
+  width: var(--sidebar-width);
+  background: var(--bg-card); border-left: 1px solid var(--border);
+  box-shadow: var(--shadow-lg);
+  display: flex; flex-direction: column;
+  transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 90;
+}
+.sidebar.open { transform: translateX(0); }
+.sidebar-header {
+  padding: 18px 20px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.sidebar-header h2 { font-family: var(--font-serif); font-size: 17px; font-weight: 700; }
+.sidebar-tabs {
+  display: flex; border-bottom: 1px solid var(--border); padding: 0 4px;
+}
+.sidebar-tab {
+  flex: 1; padding: 11px 8px; font-size: 12px; font-weight: 500;
+  color: var(--text-secondary); cursor: pointer; border: none; background: none;
+  border-bottom: 2px solid transparent; margin-bottom: -1px;
+  transition: var(--transition); text-align: center;
+}
+.sidebar-tab:hover { color: var(--text-primary); }
+.sidebar-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+.sidebar-body { flex: 1; overflow-y: auto; padding: 16px; }
+.sidebar-footer { padding: 14px 16px; border-top: 1px solid var(--border); display: flex; gap: 8px; }
+
+/* WORD CARDS */
+.vocab-card {
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 14px; margin-bottom: 10px;
+  transition: var(--transition);
+}
+.vocab-card:hover { box-shadow: var(--shadow-sm); }
+.vocab-card-word { font-family: var(--font-serif); font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.vocab-card-def { font-size: 12px; color: var(--text-secondary); margin-bottom: 10px; line-height: 1.5; }
+.vocab-card-context {
+  font-size: 12px; color: var(--text-secondary); font-style: italic;
+  border-left: 3px solid var(--accent); padding-left: 10px; line-height: 1.6;
+}
+.vocab-card-context strong { font-style: normal; color: var(--accent); }
+.vocab-card-actions { display: flex; gap: 6px; margin-top: 10px; }
+.vocab-badge { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-muted); margin-top: 6px; }
+
+/* FLASHCARD ENGINE */
+.flashcard-scene {
+  perspective: 1000px; width: 100%; height: 200px;
+  margin-bottom: 16px; cursor: pointer;
+}
+.flashcard {
+  width: 100%; height: 100%; position: relative;
+  transform-style: preserve-3d; transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: var(--radius);
+}
+.flashcard.flipped { transform: rotateY(180deg); }
+.flashcard-face {
+  position: absolute; inset: 0;
+  backface-visibility: hidden; border-radius: var(--radius);
+  border: 1px solid var(--border); padding: 24px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center;
+}
+.flashcard-front { background: var(--bg-card); }
+.flashcard-back { background: var(--bg-secondary); transform: rotateY(180deg); }
+.flashcard-front .card-word { font-family: var(--font-serif); font-size: 28px; font-weight: 700; color: var(--accent); }
+.flashcard-front .card-hint { font-size: 12px; color: var(--text-muted); margin-top: 12px; }
+.flashcard-back .card-def { font-size: 14px; color: var(--text-primary); line-height: 1.6; }
+.flashcard-back .card-context { font-size: 12px; color: var(--text-muted); font-style: italic; margin-top: 10px; border-top: 1px solid var(--border); padding-top: 10px; }
+.fc-controls { display: flex; gap: 10px; margin-top: 4px; }
+.fc-counter { text-align: center; font-size: 12px; color: var(--text-muted); margin-bottom: 12px; }
+.fc-progress { height: 3px; background: var(--bg-secondary); border-radius: 99px; margin-bottom: 16px; overflow: hidden; }
+.fc-progress-bar { height: 100%; background: var(--accent); border-radius: 99px; transition: width 0.4s ease; }
+.empty-state {
+  text-align: center; padding: 48px 20px; color: var(--text-muted);
+}
+.empty-state i { font-size: 40px; margin-bottom: 12px; display: block; opacity: 0.35; }
+.empty-state p { font-size: 13px; line-height: 1.6; }
+
+/* ── MODALS ── */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 300;
+  background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px; opacity: 0; transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+.modal-overlay.active { opacity: 1; pointer-events: all; }
+.modal {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); box-shadow: var(--shadow-xl);
+  max-width: 480px; width: 100%; padding: 32px;
+  transform: translateY(16px) scale(0.97);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.modal-overlay.active .modal { transform: translateY(0) scale(1); }
+.modal-icon { font-size: 40px; margin-bottom: 16px; text-align: center; }
+.modal-title { font-family: var(--font-serif); font-size: 22px; font-weight: 700; margin-bottom: 10px; text-align: center; }
+.modal-body { font-size: 14px; color: var(--text-secondary); line-height: 1.7; text-align: center; margin-bottom: 24px; }
+.modal-actions { display: flex; gap: 10px; flex-direction: column; }
+.modal-actions .btn { width: 100%; justify-content: center; padding: 12px 20px; }
+
+/* Phrase translate modal */
+.phrase-modal {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); box-shadow: var(--shadow-xl);
+  max-width: 520px; width: 100%; padding: 28px;
+  transform: translateY(16px) scale(0.97);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.modal-overlay.active .phrase-modal { transform: translateY(0) scale(1); }
+.phrase-text-display {
+  font-family: var(--font-serif); font-size: 18px; font-style: italic;
+  color: var(--text-primary); background: var(--bg-secondary);
+  border-radius: var(--radius-sm); padding: 14px 18px; margin-bottom: 16px;
+  border-left: 4px solid var(--accent); line-height: 1.7;
+}
+.translate-result { font-size: 14px; color: var(--text-secondary); min-height: 40px; line-height: 1.6; }
+.translate-loading { display: flex; align-items: center; gap: 10px; color: var(--text-muted); font-size: 13px; }
+
+/* ── NOTIFICATIONS ── */
+.toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 400; display: flex; flex-direction: column; gap: 8px; }
+.toast {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); box-shadow: var(--shadow-lg);
+  padding: 12px 16px; display: flex; align-items: center; gap: 10px;
+  font-size: 13px; font-weight: 500; max-width: 320px;
+  animation: toastIn 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+.toast.success { border-left: 4px solid var(--green); }
+.toast.error { border-left: 4px solid var(--red); }
+.toast.info { border-left: 4px solid var(--accent2); }
+.toast i { font-size: 15px; }
+.toast.success i { color: var(--green); }
+.toast.error i { color: var(--red); }
+.toast.info i { color: var(--accent2); }
+@keyframes toastIn { from { opacity:0; transform:translateX(20px); } to { opacity:1; transform:translateX(0); } }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .reader-wrap { padding: 28px 20px; }
+  .reader-content { font-size: 16px; }
+  .main-content { padding: 16px 16px 80px; }
+}
+@media (max-width: 680px) {
+  .sidebar {
+    top: auto; bottom: 0; left: 0; right: 0; width: 100%;
+    height: 80vh; border-left: none; border-top: 1px solid var(--border);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    transform: translateY(100%);
+  }
+  .sidebar.open { transform: translateY(0); }
+  .main-content.sidebar-open { margin-right: 0; margin-bottom: 80vh; }
+  .import-tab span { display: none; }
+  .import-tab { padding: 12px; font-size: 15px; }
+  .header-logo .logo-sub { display: none; }
+  .reader-wrap { padding: 20px 14px; }
+  .url-input-row { flex-direction: column; }
+  .reader-toolbar { gap: 8px; }
+  .game-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+}
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="header">
+  <a href="#" class="header-logo">
+    <i class="fas fa-film logo-icon"></i>
+    ReadLens
+    <span class="logo-sub">Cinema Edition</span>
+  </a>
+  <div class="header-actions">
+    <div class="theme-switcher">
+      <button class="theme-btn active" data-theme="light" title="Light theme"><i class="fas fa-sun"></i></button>
+      <button class="theme-btn" data-theme="dark" title="Dark theme"><i class="fas fa-moon"></i></button>
+      <button class="theme-btn" data-theme="sepia" title="Sepia theme"><i class="fas fa-book-open"></i></button>
+      <div class="auth-nav-block" style="display: inline-flex; align-items: center; gap: 10px; margin-left: 15px;">
+  <span id="userDisplayName" style="display: none; font-size: 14px; font-weight: 500;"></span>
+  <button id="navLoginBtn" class="btn btn-primary" onclick="openLoginModal()" style="padding: 6px 12px; font-size: 14px; border-radius: 6px; cursor: pointer;">Log In</button>
+  <button id="navLogoutBtn" class="btn btn-secondary" onclick="firebaseLogout()" style="display: none; padding: 6px 12px; font-size: 14px; border-radius: 6px; cursor: pointer;">Sign Out</button>
+</div>
+    </div>
+    <button class="icon-btn" id="vaultBtn" title="Knowledge Vault"><i class="fas fa-layer-group"></i></button>
+  </div>
+</header>
+
+<!-- ── MAIN LAYOUT ── -->
+<div class="layout">
+  <main class="main-content" id="mainContent">
+
+    <!-- IMPORT PANEL -->
+    <div class="import-panel">
+      <div class="import-tabs">
+        <button class="import-tab active" data-tab="url"><i class="fas fa-link"></i><span>URL Link</span></button>
+        <button class="import-tab" data-tab="text"><i class="fas fa-align-left"></i><span>Clear Text</span></button>
+        <button class="import-tab" data-tab="upload"><i class="fas fa-file-arrow-up"></i><span>Document</span></button>
+        <button class="import-tab" data-tab="ocr"><i class="fas fa-camera"></i><span>Screen OCR</span></button>
+      </div>
+      <div class="import-body">
+
+        <!-- URL TAB -->
+        <div class="tab-panel active" id="tab-url">
+          <div class="url-input-row">
+            <input type="url" class="url-input" id="urlInput" placeholder="https://www.bbc.com/news/science-environment-...">
+            <button class="btn btn-primary" id="extractBtn"><i class="fas fa-bolt"></i> Extract</button>
+          </div>
+          <div class="skeleton-wrap" id="urlSkeleton">
+            <div style="margin-top:16px">
+              <div class="skeleton-line" style="width:100%"></div>
+              <div class="skeleton-line" style="width:88%"></div>
+              <div class="skeleton-line" style="width:94%"></div>
+              <div class="skeleton-line" style="width:75%"></div>
+              <div class="skeleton-line"></div>
+            </div>
+          </div>
+          <p style="margin-top:12px;font-size:12px;color:var(--text-muted)"><i class="fas fa-info-circle" style="margin-right:5px"></i>Works via local backend proxy. Run <code style="background:var(--bg-secondary);padding:2px 6px;border-radius:4px;font-family:var(--font-mono)">node server.js</code> first.</p>
+        </div>
+
+        <!-- TEXT TAB -->
+        <div class="tab-panel" id="tab-text">
+          <div class="text-area-wrap">
+            <textarea class="text-area" id="textInput" placeholder="Paste your IELTS reading text here…"></textarea>
+          </div>
+          <span class="complexity-badge hidden" id="complexityBadge"><i class="fas fa-chart-bar"></i> <span id="complexityText"></span></span>
+          <div class="text-actions">
+            <button class="btn btn-secondary" id="clearTextBtn"><i class="fas fa-xmark"></i> Clear</button>
+            <button class="btn btn-primary" id="loadTextBtn"><i class="fas fa-arrow-right"></i> Load Text</button>
+          </div>
+        </div>
+
+        <!-- UPLOAD TAB -->
+        <div class="tab-panel" id="tab-upload">
+          <div class="upload-zone" id="uploadZone">
+            <i class="fas fa-file-arrow-up"></i>
+            <h3>Drop your file here</h3>
+            <p>Supports <strong>.txt</strong>, <strong>.docx</strong> and <strong>.pdf</strong> — drag &amp; drop or click to browse</p>
+            <input type="file" id="fileInput" accept=".txt,.docx,.pdf">
+          </div>
+          <div class="upload-progress" id="uploadProgress">
+            <p style="font-size:13px;color:var(--text-secondary);margin-bottom:8px" id="uploadStatus">Processing...</p>
+            <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar"></div></div>
+          </div>
+        </div>
+
+        <!-- OCR TAB -->
+        <div class="tab-panel" id="tab-ocr">
+          <div class="upload-zone ocr-zone" id="ocrZone">
+            <i class="fas fa-camera"></i>
+            <h3>Upload a screenshot</h3>
+            <p>PNG, JPG, WEBP — Tesseract OCR will extract all text</p>
+            <input type="file" id="ocrInput" accept="image/*">
+          </div>
+          <img class="ocr-preview" id="ocrPreview" alt="OCR Preview">
+          <div class="ocr-status" id="ocrStatus" style="display:none">
+            <div class="ocr-spinner active" id="ocrSpinner"></div>
+            <span id="ocrStatusText">Initializing OCR engine…</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- READER TOOLBAR -->
+    <div class="reader-toolbar" id="readerToolbar" style="display:none">
+      <div class="toolbar-group">
+        <span class="toolbar-label">Size</span>
+        <button class="icon-btn" id="fontDecBtn" title="Decrease font"><i class="fas fa-minus"></i></button>
+        <span class="font-size-display" id="fontSizeDisplay">18</span>
+        <button class="icon-btn" id="fontIncBtn" title="Increase font"><i class="fas fa-plus"></i></button>
+      </div>
+      <div class="toolbar-group">
+        <span class="toolbar-label">Font</span>
+        <button class="toggle-btn active" id="serifBtn"><i class="fas fa-font"></i> Serif</button>
+        <button class="toggle-btn" id="sansBtn">Sans</button>
+      </div>
+      <div class="toolbar-group">
+        <button class="toggle-btn" id="bionicBtn"><i class="fas fa-brain"></i> Zen Bionic</button>
+        <button class="toggle-btn" id="skimmingBtn"><i class="fas fa-forward-fast"></i> Skimming</button>
+      </div>
+      <div class="toolbar-group">
+        <span id="wordCountDisplay" style="font-size:12px;color:var(--text-muted)"></span>
+      </div>
+    </div>
+
+    <!-- READER AREA -->
+    <div class="reader-wrap" id="readerWrap">
+      <div class="reader-content serif" id="readerContent">
+        <div class="reader-empty">
+          <i class="fas fa-film"></i>
+          <h3>Your reading stage is empty</h3>
+          <p>Import an article via URL, paste text, upload a file, or scan a screenshot to begin your IELTS session.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SYNONYM GAME -->
+    <div class="synonym-game" id="synonymGame">
+      <div class="game-header">
+        <h3><i class="fas fa-puzzle-piece" style="color:var(--accent);margin-right:8px"></i>Academic Synonym Match</h3>
+        <span class="game-score" id="gameScore">0 / 0 matched</span>
+      </div>
+      <p style="font-size:13px;color:var(--text-secondary);margin-bottom:16px">Click matching pairs: the academic word and its synonym.</p>
+      <div class="game-grid" id="gameGrid"></div>
+      <div style="margin-top:16px;display:flex;gap:10px;justify-content:flex-end">
+        <button class="btn btn-secondary" id="restartGameBtn"><i class="fas fa-rotate-right"></i> Restart</button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h2><i class="fas fa-layer-group" style="color:var(--accent);margin-right:8px"></i>Knowledge Vault</h2>
+      <button class="icon-btn" id="closeSidebarBtn"><i class="fas fa-xmark"></i></button>
+    </div>
+    <div class="sidebar-tabs">
+      <button class="sidebar-tab active" data-stab="words"><i class="fas fa-list" style="margin-right:5px"></i>Words</button>
+      <button class="sidebar-tab" data-stab="flashcards"><i class="fas fa-cards-blank" style="margin-right:5px"></i>Flashcards</button>
+    </div>
+    <div class="sidebar-body" id="sidebarBody">
+      <div class="empty-state" id="wordsEmptyState">
+        <i class="fas fa-bookmark"></i>
+        <p>Save words from the reader using the tooltip.<br>They'll appear here with context.</p>
+      </div>
+      <div id="wordsList"></div>
+      <div id="flashcardPanel" style="display:none">
+        <div class="fc-progress"><div class="fc-progress-bar" id="fcProgressBar"></div></div>
+        <div class="fc-counter" id="fcCounter">Card 0 of 0</div>
+        <div class="flashcard-scene" id="flashcardScene">
+          <div class="flashcard" id="flashcard">
+            <div class="flashcard-face flashcard-front">
+              <div class="card-word" id="fcWord">—</div>
+              <div class="card-hint">Click to reveal definition</div>
+            </div>
+            <div class="flashcard-face flashcard-back">
+              <div class="card-def" id="fcDef">—</div>
+              <div class="card-context" id="fcCtx"></div>
+            </div>
+          </div>
+        </div>
+        <div class="fc-controls">
+          <button class="btn btn-secondary" style="flex:1" id="fcRepeatBtn"><i class="fas fa-rotate-left"></i> Repeat</button>
+          <button class="btn btn-primary" style="flex:1" id="fcKnowBtn"><i class="fas fa-check"></i> I Know It</button>
+        </div>
+        <div class="empty-state" id="fcEmptyState" style="display:none">
+          <i class="fas fa-trophy"></i>
+          <p>You've reviewed all cards!<br>Reset to start over.</p>
+        </div>
+      </div>
+    </div>
+    <div class="sidebar-footer">
+      <button class="btn btn-secondary" style="flex:1" id="exportJsonBtn"><i class="fas fa-download"></i> JSON</button>
+      <button class="btn btn-secondary" style="flex:1" id="exportTxtBtn"><i class="fas fa-file-lines"></i> TXT</button>
+      <button class="btn btn-secondary" id="clearVaultBtn" title="Clear all"><i class="fas fa-trash"></i></button>
+    </div>
+  </aside>
+</div>
+
+<!-- ── WORD TOOLTIP ── -->
+<div class="word-tooltip" id="wordTooltip">
+  <button class="tooltip-close" id="tooltipClose"><i class="fas fa-xmark"></i></button>
+  <div class="tooltip-word" id="tooltipWord"></div>
+  <div class="tooltip-phonetic" id="tooltipPhonetic"></div>
+  <div class="tooltip-pos" id="tooltipPos"></div>
+  <div class="tooltip-definition" id="tooltipDef">
+    <span class="tooltip-loading"><div class="ocr-spinner active" style="width:13px;height:13px"></div> Looking up definition…</span>
+  </div>
+  <div class="tooltip-actions">
+    <button class="tooltip-btn" id="tooltipSpeak"><i class="fas fa-volume-high"></i> Listen</button>
+    <button class="tooltip-btn save-btn" id="tooltipSave"><i class="fas fa-bookmark"></i> Save</button>
+    <button class="tooltip-btn" id="tooltipGoogle"><i class="fab fa-google"></i> Translate</button>
+  </div>
+</div>
+
+<!-- ── PHRASE TOOLTIP ── -->
+<div class="phrase-tooltip" id="phraseTooltip" style="display:none">
+  <i class="fas fa-language"></i> Translate phrase
+</div>
+
+<!-- ── MODALS ── -->
+<!-- Backend Error Modal -->
+<div class="modal-overlay" id="errorModalOverlay">
+  <div class="modal">
+    <div class="modal-icon">⚠️</div>
+    <div class="modal-title" id="errorModalTitle">Connection Issue</div>
+    <div class="modal-body" id="errorModalBody">The backend server is unavailable. Please start the Node.js server and try again.</div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" id="errorSwitchText"><i class="fas fa-align-left"></i> Switch to Manual Text Entry</button>
+      <button class="btn btn-secondary" id="errorModalClose"><i class="fas fa-xmark"></i> Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Phrase Translate Modal -->
+<div class="modal-overlay" id="phraseModalOverlay">
+  <div class="phrase-modal">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <h3 style="font-family:var(--font-serif);font-size:17px;font-weight:700"><i class="fas fa-language" style="color:var(--accent);margin-right:8px"></i>Phrase Translation</h3>
+      <button class="icon-btn" id="phraseModalClose"><i class="fas fa-xmark"></i></button>
+    </div>
+    <div class="phrase-text-display" id="phraseDisplay"></div>
+    <div class="translate-result" id="translateResult">
+      <span class="translate-loading"><div class="ocr-spinner active" style="width:13px;height:13px"></div> Translating…</span>
+    </div>
+    <div style="margin-top:16px;display:flex;gap:8px">
+      <a href="#" class="btn btn-secondary" id="gtLink" target="_blank" rel="noopener"><i class="fab fa-google"></i> Open in Google Translate</a>
+    </div>
+  </div>
+</div>
+
+<!-- ── TOAST CONTAINER ── -->
+<div class="toast-container" id="toastContainer"></div>
+<div id="customLoginModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10000; align-items: center; justify-content: center;">
+  <div style="background: #222222; padding: 25px; border-radius: 12px; width: 320px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); text-align: center; color: #ffffff; position: relative;">
+    <button onclick="closeLoginModal()" style="position: absolute; top: 10px; right: 15px; background: none; border: none; color: #888; font-size: 20px; cursor: pointer;">&times;</button>
+    <h3 style="margin-bottom: 20px;">🔑 Log In to ReadLens</h3>
+    <input type="email" id="firebaseAuthEmail" placeholder="Email" style="width: 100%; padding: 10px; margin-bottom: 12px; border-radius: 6px; border: 1px solid #444; background: #333; color: #fff;">
+    <input type="password" id="firebaseAuthPassword" placeholder="Password" style="width: 100%; padding: 10px; margin-bottom: 20px; border-radius: 6px; border: 1px solid #444; background: #333; color: #fff;">
+    <button onclick="submitLogin()" style="width: 100%; padding: 10px; background: #3b82f6; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; margin-bottom: 10px;">Sign In</button>
+    <p style="font-size: 13px; color: #aaa;">Don't have an account? <a href="#" onclick="openRegisterModal()" style="color: #3b82f6; text-decoration: none;">Register here</a></p>
+  </div>
+</div>
+
+<div id="customRegisterModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10000; align-items: center; justify-content: center;">
+  <div style="background: var(--bg-card, #222); padding: 25px; border-radius: 12px; width: 320px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); text-align: center; color: #FFFFFF; position: relative;">
+    <button onclick="closeRegisterModal()" style="position: absolute; top: 10px; right: 15px; background: none; border: none; color: #888; font-size: 20px; cursor: pointer;">&times;</button>
+    <h3 style="margin-bottom: 20px;">📝 Create Account</h3>
+    <input type="email" id="regEmail" placeholder="Your Email" style="width: 100%; padding: 10px; margin-bottom: 12px; border-radius: 6px; border: 1px solid #444; background: #333; color: #fff;">
+    <input type="password" id="regPassword" placeholder="Create Password" style="width: 100%; padding: 10px; margin-bottom: 20px; border-radius: 6px; border: 1px solid #444; background: #333; color: #fff;">
+    <button onclick="submitRegister()" style="width: 100%; padding: 10px; background: #10b981; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">Sign Up</button>
+  </div>
+</div>
+
+<!-- ── SCRIPTS ── -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+<script>
+// ── PDF.js from CDN ──
+const pdfScr = document.createElement('script');
+pdfScr.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.min.mjs';
+pdfScr.type = 'module';
+document.head.appendChild(pdfScr);
+</script>
+
+<script type="module">
+// ─────────────────────────────────────────────
+// READLENS CINEMA EDITION — FRONTEND ENGINE
+// ─────────────────────────────────────────────
+import * as pdfjsLib from 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.min.mjs';
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.worker.min.mjs';
+
+const BACKEND_URL = 'https://readlens-backend.onrender.com';
+
+// ── STATE ──
+const state = {
+  rawText: '',
+  fontSize: 18,
+  fontType: 'serif',
+  bionicMode: false,
+  skimmingMode: false,
+  skimInterval: null,
+  vocabulary: JSON.parse(localStorage.getItem('rl_vocab') || '[]'),
+  currentWord: '',
+  currentWordEl: null,
+  currentWordDef: '',
+  currentWordCtx: '',
+  fcIndex: 0,
+  fcPool: [],
+  fcFlipped: false,
+  gameMatched: 0,
+  gameTotal: 0,
+  gameSelected: null,
+  gamePairs: [],
+  academicInText: [],
+  sidebarOpen: false,
+  currentSidebarTab: 'words',
+};
+
+// ── ACADEMIC WORD LIST + SYNONYMS ──
+const ACADEMIC_SYNONYMS = {
+  abandon: 'forsake',
+  accumulate: 'amass',
+  ambiguous: 'unclear',
+  enhance: 'augment',
+  diminish: 'reduce',
+  fluctuate: 'vary',
+  significant: 'notable',
+  contribute: 'provide',
+  establish: 'found',
+  indicate: 'suggest',
+  maintain: 'sustain',
+  obtain: 'acquire',
+  require: 'necessitate',
+  demonstrate: 'illustrate',
+  alter: 'modify',
+  emphasize: 'highlight',
+  assess: 'evaluate',
+  investigate: 'examine',
+  implement: 'execute',
+  restrict: 'limit',
+};
+const ACADEMIC_WORDS = Object.keys(ACADEMIC_SYNONYMS);
+
+// ────────────────────────────────────────
+// UTILITIES
+// ────────────────────────────────────────
+function $(sel, ctx = document) { return ctx.querySelector(sel); }
+function $$(sel, ctx = document) { return [...ctx.querySelectorAll(sel)]; }
+
+function showToast(msg, type = 'info', duration = 3000) {
+  const icons = { success: 'fa-circle-check', error: 'fa-circle-xmark', info: 'fa-circle-info' };
+  const t = document.createElement('div');
+  t.className = `toast ${type}`;
+  t.innerHTML = `<i class="fas ${icons[type]}"></i>${msg}`;
+  $('#toastContainer').appendChild(t);
+  setTimeout(() => { t.style.opacity = '0'; t.style.transform = 'translateX(20px)'; t.style.transition = 'all 0.3s ease'; setTimeout(() => t.remove(), 300); }, duration);
+}
+
+function saveVocab() {
+  localStorage.setItem('rl_vocab', JSON.stringify(state.vocabulary));
+}
+
+function cleanWord(w) {
+  return w.replace(/[^a-zA-Z'-]/g, '').toLowerCase().trim();
+}
+
+// ────────────────────────────────────────
+// THEME
+// ────────────────────────────────────────
+$$('.theme-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    $$('.theme-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.documentElement.setAttribute('data-theme', btn.dataset.theme);
+    localStorage.setItem('rl_theme', btn.dataset.theme);
+  });
+});
+const savedTheme = localStorage.getItem('rl_theme') || 'light';
+document.documentElement.setAttribute('data-theme', savedTheme);
+$(`.theme-btn[data-theme="${savedTheme}"]`)?.classList.add('active');
+$$('.theme-btn').forEach(b => b.classList.toggle('active', b.dataset.theme === savedTheme));
+
+// ────────────────────────────────────────
+// TABS
+// ────────────────────────────────────────
+$$('.import-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    $$('.import-tab').forEach(t => t.classList.remove('active'));
+    $$('.tab-panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    $(`#tab-${tab.dataset.tab}`).classList.add('active');
+  });
+});
+
+function switchToTextTab() {
+  $$('.import-tab').forEach(t => t.classList.remove('active'));
+  $$('.tab-panel').forEach(p => p.classList.remove('active'));
+  $('[data-tab="text"]').classList.add('active');
+  $('#tab-text').classList.add('active');
+}
+
+// ────────────────────────────────────────
+// URL EXTRACTION
+// ────────────────────────────────────────
+$('#extractBtn').addEventListener('click', async () => {
+  const url = $('#urlInput').value.trim();
+  if (!url) { showToast('Please enter a URL', 'error'); return; }
+  try { new URL(url); } catch { showToast('Invalid URL format', 'error'); return; }
+
+  $('#extractBtn').disabled = true;
+  $('#extractBtn').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Extracting…';
+  $('#urlSkeleton').classList.add('active');
+
+  try {
+    const res = await fetch(`${BACKEND_URL}/api/parse?url=${encodeURIComponent(url)}`, {
+    signal: AbortSignal.timeout(20000)
+});
+    const data = await res.json();
+
+    if (!res.ok || !data.success) {
+      showErrorModal(
+        data.error === 'ACCESS_BLOCKED' ? '🛡️ Site Protected' : '⚠️ Extraction Failed',
+        data.message || 'Could not extract text from this URL.'
+      );
+      return;
+    }
+
+    loadText(data.text);
+    showToast(`Extracted ${data.wordCount} words from ${data.domain}`, 'success');
+  } catch (err) {
+    const isOffline = err.name === 'TypeError' || err.name === 'TimeoutError' || err.message.includes('fetch');
+    showErrorModal(
+      isOffline ? '🔌 Backend Offline' : '⚠️ Extraction Error',
+      isOffline
+        ? 'The ReadLens backend server is not running. Start it with <code>node server.js</code> in your terminal, then try again. Alternatively, copy the article text and paste it manually.'
+        : `Error: ${err.message}`
+    );
+  } finally {
+    $('#extractBtn').disabled = false;
+    $('#extractBtn').innerHTML = '<i class="fas fa-bolt"></i> Extract';
+    $('#urlSkeleton').classList.remove('active');
+  }
+});
+
+$('#urlInput').addEventListener('keydown', e => { if (e.key === 'Enter') $('#extractBtn').click(); });
+
+function showErrorModal(title, body) {
+  $('#errorModalTitle').innerHTML = title;
+  $('#errorModalBody').innerHTML = body;
+  $('#errorModalOverlay').classList.add('active');
+}
+$('#errorModalClose').addEventListener('click', () => $('#errorModalOverlay').classList.remove('active'));
+$('#errorSwitchText').addEventListener('click', () => {
+  $('#errorModalOverlay').classList.remove('active');
+  switchToTextTab();
+});
+$('#errorModalOverlay').addEventListener('click', e => { if (e.target === $('#errorModalOverlay')) $('#errorModalOverlay').classList.remove('active'); });
+
+// ────────────────────────────────────────
+// TEXT TAB — COMPLEXITY ANALYZER
+// ────────────────────────────────────────
+$('#textInput').addEventListener('input', () => {
+  const text = $('#textInput').value;
+  const badge = $('#complexityBadge');
+  const words = text.trim().split(/\s+/).filter(w => w.length > 0);
+  if (words.length < 20) { badge.classList.add('hidden'); return; }
+
+  const avgLen = words.reduce((s, w) => s + cleanWord(w).length, 0) / words.length;
+  badge.classList.remove('hidden', 'intermediate', 'advanced', 'academic');
+
+  let level, label;
+  if (avgLen < 5.2) { level = 'intermediate'; label = 'Intermediate — Band 5.0–6.0'; }
+  else if (avgLen < 6.5) { level = 'advanced'; label = 'Advanced — Band 6.5–7.5'; }
+  else { level = 'academic'; label = 'IELTS Academic Focus — Band 8.0+'; }
+
+  badge.classList.add(level);
+  $('#complexityText').textContent = label;
+});
+
+$('#clearTextBtn').addEventListener('click', () => {
+  $('#textInput').value = '';
+  $('#complexityBadge').classList.add('hidden');
+});
+
+$('#loadTextBtn').addEventListener('click', () => {
+  const txt = $('#textInput').value.trim();
+  if (!txt) { showToast('Please enter some text first', 'error'); return; }
+  loadText(txt);
+  showToast('Text loaded into reader', 'success');
+});
+
+// ────────────────────────────────────────
+// DOCUMENT UPLOAD
+// ────────────────────────────────────────
+const uploadZone = $('#uploadZone');
+const fileInput = $('#fileInput');
+
+uploadZone.addEventListener('click', () => fileInput.click());
+uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('drag-over'); });
+uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('drag-over'));
+uploadZone.addEventListener('drop', e => { e.preventDefault(); uploadZone.classList.remove('drag-over'); handleFile(e.dataTransfer.files[0]); });
+fileInput.addEventListener('change', e => handleFile(e.target.files[0]));
+
+function setProgress(pct, msg) {
+  $('#uploadProgress').classList.add('active');
+  $('#progressBar').style.width = pct + '%';
+  $('#uploadStatus').textContent = msg;
+}
+
+async function handleFile(file) {
+  if (!file) return;
+  const ext = file.name.split('.').pop().toLowerCase();
+  setProgress(10, `Reading ${file.name}…`);
+
+  try {
+    if (ext === 'txt') {
+      setProgress(50, 'Parsing text file…');
+      const text = await file.text();
+      setProgress(100, 'Done!');
+      setTimeout(() => { loadText(text); $('#uploadProgress').classList.remove('active'); $('#progressBar').style.width = '0'; }, 400);
+
+    } else if (ext === 'docx') {
+      setProgress(40, 'Parsing DOCX with Mammoth…');
+      const arrayBuffer = await file.arrayBuffer();
+      const result = await mammoth.extractRawText({ arrayBuffer });
+      setProgress(100, 'Done!');
+      setTimeout(() => { loadText(result.value); $('#uploadProgress').classList.remove('active'); $('#progressBar').style.width = '0'; }, 400);
+      if (result.messages.length) console.warn('Mammoth warnings:', result.messages);
+
+    } else if (ext === 'pdf') {
+      setProgress(20, 'Loading PDF…');
+      const arrayBuffer = await file.arrayBuffer();
+      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      setProgress(50, `Extracting ${pdf.numPages} pages…`);
+      let fullText = '';
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const content = await page.getTextContent();
+        fullText += content.items.map(item => item.str).join(' ') + '\n\n';
+        setProgress(50 + Math.round((i / pdf.numPages) * 45), `Page ${i} of ${pdf.numPages}…`);
+      }
+      setProgress(100, 'Done!');
+      setTimeout(() => { loadText(fullText); $('#uploadProgress').classList.remove('active'); $('#progressBar').style.width = '0'; }, 400);
+
+    } else {
+      showToast('Unsupported file type. Use .txt, .docx or .pdf', 'error');
+      $('#uploadProgress').classList.remove('active');
+    }
+  } catch (err) {
+    showToast(`File error: ${err.message}`, 'error');
+    $('#uploadProgress').classList.remove('active');
+    console.error(err);
+  }
+}
+
+// ────────────────────────────────────────
+// OCR — TESSERACT
+// ────────────────────────────────────────
+const ocrZone = $('#ocrZone');
+const ocrInput = $('#ocrInput');
+
+ocrZone.addEventListener('click', () => ocrInput.click());
+ocrZone.addEventListener('dragover', e => { e.preventDefault(); ocrZone.classList.add('drag-over'); });
+ocrZone.addEventListener('dragleave', () => ocrZone.classList.remove('drag-over'));
+ocrZone.addEventListener('drop', e => { e.preventDefault(); ocrZone.classList.remove('drag-over'); handleOCR(e.dataTransfer.files[0]); });
+ocrInput.addEventListener('change', e => handleOCR(e.target.files[0]));
+
+async function handleOCR(file) {
+  if (!file || !file.type.startsWith('image/')) { showToast('Please provide an image file', 'error'); return; }
+
+  const url = URL.createObjectURL(file);
+  $('#ocrPreview').src = url;
+  $('#ocrPreview').style.display = 'block';
+  $('#ocrStatus').style.display = 'flex';
+  $('#ocrSpinner').classList.add('active');
+  $('#ocrStatusText').textContent = 'Loading Tesseract engine…';
+
+  try {
+    const Tesseract = (await import('https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.esm.min.js')).default;
+    const worker = await Tesseract.createWorker('eng', 1, {
+      logger: m => {
+        if (m.status === 'recognizing text') {
+          $('#ocrStatusText').textContent = `Recognizing text… ${Math.round(m.progress * 100)}%`;
+        }
+      }
+    });
+    $('#ocrStatusText').textContent = 'Scanning image…';
+    const { data: { text } } = await worker.recognize(file);
+    await worker.terminate();
+
+    $('#ocrSpinner').classList.remove('active');
+    $('#ocrStatusText').textContent = `Extracted ${text.split(/\s+/).filter(w=>w).length} words`;
+
+    if (text.trim().length < 10) { showToast('Could not detect text in this image', 'error'); return; }
+    loadText(text);
+    showToast('OCR complete — text loaded into reader', 'success');
+  } catch (err) {
+    $('#ocrSpinner').classList.remove('active');
+    $('#ocrStatusText').textContent = 'OCR failed';
+    showToast(`OCR error: ${err.message}`, 'error');
+  }
+}
+
+// ────────────────────────────────────────
+// LOAD TEXT → RENDER
+// ────────────────────────────────────────
+function loadText(rawText) {
+  state.rawText = rawText.trim();
+  renderReader();
+  showToast('Text loaded', 'success');
+}
+
+function renderReader() {
+  if (!state.rawText) return;
+  const content = $('#readerContent');
+  content.innerHTML = '';
+  content.className = `reader-content ${state.fontType}`;
+  content.style.fontSize = state.fontSize + 'px';
+
+  const paragraphs = state.rawText.split(/\n{2,}|\r\n{2,}/).filter(p => p.trim().length > 0);
+  state.academicInText = [];
+
+  paragraphs.forEach((para, pIdx) => {
+    const pEl = document.createElement('p');
+    pEl.className = 'reader-paragraph';
+    pEl.dataset.pIdx = pIdx;
+
+    const sentences = para.split(/(?<=[.!?])\s+/).filter(s => s.trim());
+    sentences.forEach((sentence, sIdx) => {
+      const sentSpan = document.createElement('span');
+      sentSpan.className = 'sentence' + (sIdx === 0 ? ' topic-sentence' : '');
+      sentSpan.dataset.sIdx = sIdx;
+
+      const words = sentence.split(/(\s+)/);
+      words.forEach(part => {
+        if (/^\s+$/.test(part)) { sentSpan.appendChild(document.createTextNode(part)); return; }
+        const wordClean = cleanWord(part);
+        const span = document.createElement('span');
+        span.className = 'word-token';
+        span.dataset.word = wordClean;
+        span.dataset.pIdx = pIdx;
+
+        const isAcademic = ACADEMIC_WORDS.includes(wordClean);
+        if (isAcademic) {
+          span.classList.add('academic-word');
+          if (!state.academicInText.includes(wordClean)) state.academicInText.push(wordClean);
+        }
+
+        if (state.bionicMode) {
+          const letters = wordClean.length;
+          const boldCount = Math.ceil(letters * 0.4);
+          const display = part;
+          const boldPart = display.slice(0, boldCount);
+          const restPart = display.slice(boldCount);
+          span.innerHTML = `<strong class="bionic-bold">${boldPart}</strong>${restPart}`;
+        } else {
+          span.textContent = part;
+        }
+
+        sentSpan.appendChild(span);
+      });
+
+      pEl.appendChild(sentSpan);
+      if (sIdx < sentences.length - 1) pEl.appendChild(document.createTextNode(' '));
+    });
+
+    content.appendChild(pEl);
+  });
+
+  // Show toolbar
+  $('#readerToolbar').style.display = 'flex';
+  $('#wordCountDisplay').textContent = `${state.rawText.split(/\s+/).filter(w=>w).length} words`;
+
+  // Attach word click
+  $$('.word-token').forEach(el => el.addEventListener('click', onWordClick));
+
+  // Skimming mode re-apply
+  if (state.skimmingMode) applySkimmingMode(true);
+
+  // Game
+  if (state.academicInText.length > 0) buildSynonymGame();
+  else $('#synonymGame').classList.remove('active');
+
+  // Scroll to reader
+  setTimeout(() => $('#readerWrap').scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+}
+
+// ────────────────────────────────────────
+// WORD TOOLTIP
+// ────────────────────────────────────────
+async function onWordClick(e) {
+  e.stopPropagation();
+  const el = e.currentTarget;
+  const word = el.dataset.word;
+  if (!word || word.length < 2) return;
+
+  state.currentWordEl = el;
+  state.currentWord = word;
+  state.currentWordDef = '';
+
+  const para = el.closest('.reader-paragraph');
+  state.currentWordCtx = para ? para.textContent : '';
+
+  positionTooltip(e.clientX, e.clientY);
+  $('#wordTooltip').classList.add('visible');
+
+  $('#tooltipWord').textContent = word;
+  $('#tooltipPhonetic').textContent = '';
+  $('#tooltipPos').textContent = '';
+  $('#tooltipDef').innerHTML = `<span class="tooltip-loading"><div class="ocr-spinner active" style="width:13px;height:13px;margin-right:8px"></div>Looking up…</span>`;
+  $('#tooltipGoogle').href = `https://translate.google.com/?sl=en&tl=ru&text=${encodeURIComponent(word)}&op=translate`;
+
+  fetchDefinition(word);
+}
+
+function positionTooltip(x, y) {
+  const tt = $('#wordTooltip');
+  tt.style.left = '0px'; tt.style.top = '0px'; tt.style.display = 'block';
+  const rect = tt.getBoundingClientRect();
+  let left = x + 12, top = y + 12;
+  if (left + rect.width > window.innerWidth - 16) left = x - rect.width - 12;
+  if (top + rect.height > window.innerHeight - 16) top = y - rect.height - 12;
+  if (left < 8) left = 8;
+  if (top < 8) top = 8;
+  tt.style.left = left + 'px'; tt.style.top = top + 'px';
+}
+
+async function fetchDefinition(word) {
+  try {
+    const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word)}`);
+    if (!res.ok) throw new Error('Not found');
+    const data = await res.json();
+    const entry = data[0];
+    const meaning = entry.meanings[0];
+    const def = meaning?.definitions[0];
+    const phonetic = entry.phonetic || entry.phonetics?.find(p => p.text)?.text || '';
+    const pos = meaning?.partOfSpeech || '';
+    const defText = def?.definition || 'No definition available.';
+
+    state.currentWordDef = defText;
+    $('#tooltipPhonetic').textContent = phonetic;
+    $('#tooltipPos').textContent = pos;
+    $('#tooltipDef').textContent = defText;
+
+    if (def?.example) {
+      const ex = document.createElement('div');
+      ex.style.cssText = 'margin-top:6px;font-size:12px;color:var(--text-muted);font-style:italic';
+      ex.textContent = `"${def.example}"`;
+      $('#tooltipDef').appendChild(ex);
+    }
+  } catch {
+    $('#tooltipPos').textContent = '';
+    $('#tooltipPhonetic').textContent = '';
+    $('#tooltipDef').innerHTML = `Definition not found. <a href="https://translate.google.com/?sl=en&tl=ru&text=${encodeURIComponent(word)}&op=translate" target="_blank" rel="noopener" style="color:var(--accent2);text-decoration:none;font-weight:500">Open in Google Translate <i class="fas fa-arrow-up-right-from-square" style="font-size:10px"></i></a>`;
+  }
+}
+
+$('#tooltipClose').addEventListener('click', () => $('#wordTooltip').classList.remove('visible'));
+
+document.addEventListener('click', e => {
+  if (!$('#wordTooltip').contains(e.target) && !e.target.classList.contains('word-token')) {
+    $('#wordTooltip').classList.remove('visible');
+  }
+});
+
+$('#tooltipSpeak').addEventListener('click', () => {
+  if (!state.currentWord) return;
+  const utt = new SpeechSynthesisUtterance(state.currentWord);
+  utt.lang = 'en-US'; utt.rate = 0.85;
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(utt);
+});
+
+$('#tooltipSave').addEventListener('click', () => {
+  const word = state.currentWord;
+  if (!word) return;
+  if (state.vocabulary.find(v => v.word === word)) { showToast(`"${word}" already in vault`, 'info'); return; }
+  state.vocabulary.push({
+    word,
+    definition: state.currentWordDef,
+    context: state.currentWordCtx,
+    savedAt: new Date().toISOString()
+  });
+  saveVocab();
+  renderVocab();
+  showToast(`"${word}" saved to vault`, 'success');
+  $('#wordTooltip').classList.remove('visible');
+  if (!state.sidebarOpen) openSidebar();
+});
+
+$('#tooltipGoogle').addEventListener('click', () => {});
+
+// ────────────────────────────────────────
+// PHRASE SELECTION
+// ────────────────────────────────────────
+let selectedPhrase = '';
+
+document.addEventListener('mouseup', e => {
+  const sel = window.getSelection();
+  if (!sel || sel.isCollapsed) { $('#phraseTooltip').style.display = 'none'; return; }
+  const text = sel.toString().trim();
+  if (text.length < 3 || !$('#readerContent').contains(sel.anchorNode)) { $('#phraseTooltip').style.display = 'none'; return; }
+  selectedPhrase = text;
+  const range = sel.getRangeAt(0);
+  const rect = range.getBoundingClientRect();
+  const pt = $('#phraseTooltip');
+  pt.style.display = 'flex';
+  pt.style.left = (rect.left + rect.width / 2 - 80) + 'px';
+  pt.style.top = (rect.top - 42 + window.scrollY) + 'px';
+  pt.classList.add('visible');
+});
+
+$('#phraseTooltip').addEventListener('click', () => {
+  if (!selectedPhrase) return;
+  $('#phraseTooltip').style.display = 'none';
+  showPhraseModal(selectedPhrase);
+  window.getSelection()?.removeAllRanges();
+});
+
+async function showPhraseModal(phrase) {
+  $('#phraseDisplay').textContent = phrase;
+  $('#translateResult').innerHTML = `<span class="translate-loading"><div class="ocr-spinner active" style="width:13px;height:13px;margin-right:8px"></div>Translating…</span>`;
+  $('#gtLink').href = `https://translate.google.com/?sl=en&tl=ru&text=${encodeURIComponent(phrase)}&op=translate`;
+  $('#phraseModalOverlay').classList.add('active');
+
+  try {
+    const encoded = encodeURIComponent(phrase);
+    const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ru&dt=t&q=${encoded}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    const translated = data[0]?.map(seg => seg[0]).join('') || '';
+    if (translated) {
+      $('#translateResult').textContent = translated;
+    } else throw new Error('Empty');
+  } catch {
+    $('#translateResult').innerHTML = `<span style="color:var(--text-muted)">Auto-translation unavailable. <a href="${$('#gtLink').href}" target="_blank" rel="noopener" style="color:var(--accent2)">Open Google Translate</a> for the translation.</span>`;
+  }
+}
+
+$('#phraseModalClose').addEventListener('click', () => $('#phraseModalOverlay').classList.remove('active'));
+$('#phraseModalOverlay').addEventListener('click', e => { if (e.target === $('#phraseModalOverlay')) $('#phraseModalOverlay').classList.remove('active'); });
+
+// ────────────────────────────────────────
+// READER TOOLBAR CONTROLS
+// ────────────────────────────────────────
+$('#fontDecBtn').addEventListener('click', () => {
+  if (state.fontSize <= 12) return;
+  state.fontSize -= 2;
+  $('#fontSizeDisplay').textContent = state.fontSize;
+  $('#readerContent').style.fontSize = state.fontSize + 'px';
+});
+$('#fontIncBtn').addEventListener('click', () => {
+  if (state.fontSize >= 32) return;
+  state.fontSize += 2;
+  $('#fontSizeDisplay').textContent = state.fontSize;
+  $('#readerContent').style.fontSize = state.fontSize + 'px';
+});
+
+$('#serifBtn').addEventListener('click', () => {
+  state.fontType = 'serif';
+  $('#readerContent').classList.remove('sans'); $('#readerContent').classList.add('serif');
+  $('#serifBtn').classList.add('active'); $('#sansBtn').classList.remove('active');
+});
+$('#sansBtn').addEventListener('click', () => {
+  state.fontType = 'sans';
+  $('#readerContent').classList.remove('serif'); $('#readerContent').classList.add('sans');
+  $('#sansBtn').classList.add('active'); $('#serifBtn').classList.remove('active');
+});
+
+// ── BIONIC MODE ──
+$('#bionicBtn').addEventListener('click', () => {
+  state.bionicMode = !state.bionicMode;
+  $('#bionicBtn').classList.toggle('active', state.bionicMode);
+  if (state.rawText) {
+    if (state.bionicMode) {
+      $('#readerWrap').classList.add('zen-dimmed');
+      renderReader();
+    } else {
+      $('#readerWrap').classList.remove('zen-dimmed');
+      renderReader();
+    }
+  }
+  showToast(state.bionicMode ? 'Zen Bionic mode on' : 'Zen Bionic mode off', 'info');
+});
+
+// ── SKIMMING MODE ──
+$('#skimmingBtn').addEventListener('click', () => {
+  state.skimmingMode = !state.skimmingMode;
+  $('#skimmingBtn').classList.toggle('active', state.skimmingMode);
+  applySkimmingMode(state.skimmingMode);
+  showToast(state.skimmingMode ? 'Skimming mode on — topic sentences highlighted' : 'Skimming mode off', 'info');
+});
+
+function applySkimmingMode(on) {
+  const content = $('#readerContent');
+  if (on) {
+    content.style.lineHeight = '2.2';
+    $$('.topic-sentence .word-token').forEach(el => el.style.background = 'rgba(184,134,11,0.18)');
+    $$('.sentence:not(.topic-sentence) .word-token').forEach(el => el.style.opacity = '0.55');
+
+    if (state.skimInterval) clearInterval(state.skimInterval);
+    let scrolled = 0;
+    const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
+    state.skimInterval = setInterval(() => {
+      scrolled += 1;
+      window.scrollBy(0, 1);
+      if (window.scrollY >= totalScroll - 10) { clearInterval(state.skimInterval); state.skimInterval = null; }
+    }, 80);
+  } else {
+    content.style.lineHeight = '';
+    $$('.topic-sentence .word-token').forEach(el => el.style.background = '');
+    $$('.sentence:not(.topic-sentence) .word-token').forEach(el => el.style.opacity = '');
+    if (state.skimInterval) { clearInterval(state.skimInterval); state.skimInterval = null; }
+  }
+}
+
+// ────────────────────────────────────────
+// SYNONYM GAME
+// ────────────────────────────────────────
+function buildSynonymGame() {
+  const game = $('#synonymGame');
+  game.classList.add('active');
+
+  const pairs = state.academicInText.slice(0, 8).map(word => ({
+    word,
+    synonym: ACADEMIC_SYNONYMS[word]
+  }));
+
+  state.gamePairs = pairs;
+  state.gameMatched = 0;
+  state.gameTotal = pairs.length;
+  state.gameSelected = null;
+
+  const cards = [];
+  pairs.forEach(p => {
+    cards.push({ id: p.word, label: p.word, matchId: p.synonym, type: 'word' });
+    cards.push({ id: p.synonym, label: p.synonym, matchId: p.word, type: 'syn' });
+  });
+
+  cards.sort(() => Math.random() - 0.5);
+
+  const grid = $('#gameGrid');
+  grid.innerHTML = '';
+  cards.forEach(card => {
+    const el = document.createElement('div');
+    el.className = 'game-card';
+    el.textContent = card.label;
+    el.dataset.id = card.id;
+    el.dataset.match = card.matchId;
+    el.dataset.type = card.type;
+    el.addEventListener('click', onGameCardClick);
+    grid.appendChild(el);
+  });
+
+  updateGameScore();
+}
+
+function onGameCardClick(e) {
+  const el = e.currentTarget;
+  if (el.classList.contains('match') || el.classList.contains('selected')) return;
+
+  if (!state.gameSelected) {
+    state.gameSelected = el;
+    el.classList.add('selected');
+    return;
+  }
+
+  const a = state.gameSelected, b = el;
+  state.gameSelected = null;
+
+  const aMatch = a.dataset.match, bId = b.dataset.id;
+  const bMatch = b.dataset.match, aId = a.dataset.id;
+
+  if (aMatch === bId && bMatch === aId) {
+    a.classList.remove('selected'); b.classList.remove('selected');
+    a.classList.add('match'); b.classList.add('match');
+    state.gameMatched++;
+    updateGameScore();
+    setTimeout(() => { a.style.opacity = '0'; b.style.opacity = '0'; setTimeout(() => { a.remove(); b.remove(); }, 300); }, 600);
+    if (state.gameMatched === state.gameTotal) {
+      setTimeout(() => showToast('🎉 All pairs matched! Well done!', 'success', 4000), 700);
+    }
+  } else {
+    a.classList.remove('selected');
+    a.classList.add('wrong'); b.classList.add('wrong');
+    setTimeout(() => { a.classList.remove('wrong'); b.classList.remove('wrong'); }, 600);
+  }
+}
+
+function updateGameScore() {
+  $('#gameScore').textContent = `${state.gameMatched} / ${state.gameTotal} matched`;
+}
+
+$('#restartGameBtn').addEventListener('click', () => {
+  if (state.academicInText.length > 0) buildSynonymGame();
+});
+
+// ────────────────────────────────────────
+// SIDEBAR / VOCAB
+// ────────────────────────────────────────
+function openSidebar() {
+  state.sidebarOpen = true;
+  $('#sidebar').classList.add('open');
+  $('#mainContent').classList.add('sidebar-open');
+  $('#vaultBtn').classList.add('active');
+}
+function closeSidebar() {
+  state.sidebarOpen = false;
+  $('#sidebar').classList.remove('open');
+  $('#mainContent').classList.remove('sidebar-open');
+  $('#vaultBtn').classList.remove('active');
+}
+
+$('#vaultBtn').addEventListener('click', () => { state.sidebarOpen ? closeSidebar() : openSidebar(); });
+$('#closeSidebarBtn').addEventListener('click', closeSidebar);
+
+$$('.sidebar-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    $$('.sidebar-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    state.currentSidebarTab = tab.dataset.stab;
+    renderSidebarTab();
+  });
+});
+
+function renderSidebarTab() {
+  const isWords = state.currentSidebarTab === 'words';
+  $('#wordsList').style.display = isWords ? 'block' : 'none';
+  $('#flashcardPanel').style.display = isWords ? 'none' : 'block';
+  if (isWords) renderVocab();
+  else renderFlashcards();
+}
+
+function renderVocab() {
+  const list = $('#wordsList');
+  list.innerHTML = '';
+  if (state.vocabulary.length === 0) {
+    $('#wordsEmptyState').style.display = 'block';
+    return;
+  }
+  $('#wordsEmptyState').style.display = 'none';
+  state.vocabulary.slice().reverse().forEach((entry, i) => {
+    const idx = state.vocabulary.length - 1 - i;
+    const card = document.createElement('div');
+    card.className = 'vocab-card';
+
+    const ctx = entry.context || '';
+    const highlighted = ctx.replace(new RegExp(`\\b${entry.word}\\b`, 'gi'), `<strong>${entry.word}</strong>`);
+
+    card.innerHTML = `
+      <div class="vocab-card-word">${entry.word}</div>
+      <div class="vocab-card-def">${entry.definition || 'No definition saved'}</div>
+      ${ctx ? `<div class="vocab-card-context">${highlighted}</div>` : ''}
+      <div class="vocab-card-actions">
+        <button class="btn btn-ghost" style="font-size:11px;padding:4px 8px" onclick="speakWord('${entry.word}')"><i class="fas fa-volume-high"></i></button>
+        <button class="btn btn-ghost" style="font-size:11px;padding:4px 8px;color:var(--red)" onclick="removeWord(${idx})"><i class="fas fa-trash"></i></button>
+      </div>
+      <div class="vocab-badge">Saved ${new Date(entry.savedAt).toLocaleDateString()}</div>
+    `;
+    list.appendChild(card);
+  });
+}
+
+window.speakWord = (word) => {
+  const utt = new SpeechSynthesisUtterance(word);
+  utt.lang = 'en-US'; utt.rate = 0.85;
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(utt);
+};
+
+window.removeWord = (idx) => {
+  state.vocabulary.splice(idx, 1);
+  saveVocab();
+  renderVocab();
+  showToast('Word removed', 'info');
+};
+
+// ────────────────────────────────────────
+// FLASHCARDS
+// ────────────────────────────────────────
+function renderFlashcards() {
+  state.fcPool = [...state.vocabulary];
+  state.fcIndex = 0;
+  state.fcFlipped = false;
+
+  if (state.fcPool.length === 0) {
+    $('#fcEmptyState').style.display = 'block';
+    $('#flashcardScene').style.display = 'none';
+    $('#fcControls').style.display = 'none';
+    return;
+  }
+  $('#fcEmptyState').style.display = 'none';
+  $('#flashcardScene').style.display = 'block';
+  showFlashcard();
+}
+
+function showFlashcard() {
+  const card = state.fcPool[state.fcIndex];
+  if (!card) {
+    $('#fcEmptyState').style.display = 'block';
+    $('#flashcardScene').style.display = 'none';
+    return;
+  }
+  $('#fcEmptyState').style.display = 'none';
+  $('#flashcardScene').style.display = 'block';
+  $('#flashcard').classList.remove('flipped');
+  state.fcFlipped = false;
+  $('#fcWord').textContent = card.word;
+  $('#fcDef').textContent = card.definition || 'No definition';
+  $('#fcCtx').textContent = card.context ? `"${card.context.slice(0, 100)}…"` : '';
+  $('#fcCounter').textContent = `Card ${state.fcIndex + 1} of ${state.fcPool.length}`;
+  const pct = state.vocabulary.length > 0 ? ((state.vocabulary.length - state.fcPool.length) / state.vocabulary.length) * 100 : 0;
+  $('#fcProgressBar').style.width = pct + '%';
+}
+
+$('#flashcardScene').addEventListener('click', () => {
+  state.fcFlipped = !state.fcFlipped;
+  $('#flashcard').classList.toggle('flipped', state.fcFlipped);
+});
+
+$('#fcRepeatBtn').addEventListener('click', () => {
+  state.fcIndex = (state.fcIndex + 1) % state.fcPool.length;
+  showFlashcard();
+});
+
+$('#fcKnowBtn').addEventListener('click', () => {
+  state.fcPool.splice(state.fcIndex, 1);
+  if (state.fcPool.length === 0) { showFlashcard(); return; }
+  if (state.fcIndex >= state.fcPool.length) state.fcIndex = 0;
+  showFlashcard();
+  showToast('Marked as known!', 'success');
+});
+
+// ────────────────────────────────────────
+// EXPORT
+// ────────────────────────────────────────
+$('#exportJsonBtn').addEventListener('click', () => {
+  const json = JSON.stringify(state.vocabulary, null, 2);
+  downloadFile('readlens-vocabulary.json', json, 'application/json');
+});
+
+$('#exportTxtBtn').addEventListener('click', () => {
+  const txt = state.vocabulary.map(v =>
+    `${v.word.toUpperCase()}\n${v.definition || ''}\nContext: ${v.context ? v.context.slice(0,120) : 'N/A'}\n${'─'.repeat(40)}`
+  ).join('\n\n');
+  downloadFile('readlens-vocabulary.txt', txt, 'text/plain');
+});
+
+$('#clearVaultBtn').addEventListener('click', () => {
+  if (!confirm('Clear all saved words? This cannot be undone.')) return;
+  state.vocabulary = [];
+  saveVocab();
+  renderVocab();
+  showToast('Vault cleared', 'info');
+});
+
+function downloadFile(name, content, type) {
+  if (state.vocabulary.length === 0) { showToast('Vault is empty', 'info'); return; }
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([content], { type }));
+  a.download = name;
+  a.click();
+}
+
+// ────────────────────────────────────────
+// INITIAL RENDER
+// ────────────────────────────────────────
+renderVocab();
+renderSidebarTab();
+// Логика закрытия всплывающего окна (Tooltip) по нажатию на крестик
+document.getElementById('tooltipClose').addEventListener('click', () => {
+  document.getElementById('wordTooltip').style.display = 'none';
+
+  // Если DeepSeek использовал класс 'active' вместо 'display', то добавь еще эту строчку:
+  document.getElementById('wordTooltip').classList.remove('active');
+});
+// Закрытие окна при клике в любое другое место экрана
+document.addEventListener('click', (e) => {
+  const tooltip = document.getElementById('wordTooltip');
+  // Если кликнули НЕ по самому окну и НЕ по слову, то скрываем окно
+  if (!tooltip.contains(e.target) && !e.target.classList.contains('word')) {
+    tooltip.style.display = 'none';
+    tooltip.classList.remove('active');
+  }
+});
+</script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDMeDLaG7S5pmdMEOSJc-LjZuULxm-HDCU",
+    authDomain: "ielts-reading-platform-d32ed.firebaseapp.com",
+    projectId: "ielts-reading-platform-d32ed",
+    storageBucket: "ielts-reading-platform-d32ed.firebasestorage.app",
+    messagingSenderId: "576309261898",
+    appId: "1:576309261898:web:e8ac37323a3563e90918b3"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  let currentUser = null;
+
+  // Отслеживание состояния входа
+  onAuthStateChanged(auth, async (user) => {
+    const loginBtn = document.getElementById('navLoginBtn');
+    const logoutBtn = document.getElementById('navLogoutBtn');
+    const userNameSpan = document.getElementById('userDisplayName');
+
+    if (user) {
+      currentUser = user;
+      console.log("User logged in:", user.email);
+
+      // Меняем кнопки в меню: показываем имя и кнопку Выход
+      if(loginBtn) loginBtn.style.display = 'none';
+      if(logoutBtn) logoutBtn.style.display = 'inline-block';
+      if(userNameSpan) {
+        userNameSpan.textContent = user.email.split('@')[0]; // Покажет имя до собачки
+        userNameSpan.style.display = 'inline';
+      }
+
+      await loadVocabFromFirebase();
+    } else {
+      currentUser = null;
+      console.log("User signed out");
+
+      // Возвращаем кнопку Войти
+      if(loginBtn) loginBtn.style.display = 'inline-block';
+      if(logoutBtn) logoutBtn.style.display = 'none';
+      if(userNameSpan) userNameSpan.style.display = 'none';
+    }
+  });
+
+  // Функции для управления модальными окнами интерфейса
+  window.openLoginModal = () => { document.getElementById('customLoginModal').style.display = 'flex'; };
+  window.closeLoginModal = () => { document.getElementById('customLoginModal').style.display = 'none'; };
+  window.openRegisterModal = () => {
+    window.closeLoginModal();
+    document.getElementById('customRegisterModal').style.display = 'flex';
+  };
+  window.closeRegisterModal = () => { document.getElementById('customRegisterModal').style.display = 'none'; };
+
+  // Отправка данных из форм красивых модалок в Firebase Auth
+window.submitLogin = async () => {
+    // Считываем из новых уникальных ID
+    const email = document.getElementById('firebaseAuthEmail').value;
+    const pass = document.getElementById('firebaseAuthPassword').value;
+
+    if (!email || !pass) {
+      alert("Please fill in all fields");
+      return;
+    }
+
+    try {
+      await signInWithEmailAndPassword(auth, email, pass);
+      window.closeLoginModal();
+    } catch (error) {
+      alert("Login failed: " + error.message);
+    }
+  };
+
+  window.submitRegister = async () => {
+    const email = document.getElementById('regEmail').value;
+    const pass = document.getElementById('regPassword').value;
+    try {
+      await createUserWithEmailAndPassword(auth, email, pass);
+      window.closeRegisterModal();
+      alert("Account created and logged in!");
+    } catch (error) {
+      alert("Registration failed: " + error.message);
+    }
+  };
+
+  window.firebaseLogout = async () => {
+    try {
+      await signOut(auth);
+      state.vocabulary = [];
+      if (typeof renderVocab === 'function') renderVocab();
+      alert('Logged out successfully');
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
+
+  // Синхронизация с Firestore database
+  async function saveVocabToFirebase() {
+    if (!currentUser) return;
+    try {
+      await setDoc(doc(db, "users", currentUser.uid), { vocabulary: state.vocabulary });
+      console.log("Vocabulary synced with Firebase!");
+    } catch (error) {
+      console.error("Error syncing with Firebase:", error);
+    }
+  }
+
+  async function loadVocabFromFirebase() {
+    if (!currentUser) return;
+    try {
+      const docRef = doc(db, "users", currentUser.uid);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        if (data.vocabulary) {
+          state.vocabulary = data.vocabulary;
+          if (typeof renderVocab === 'function') renderVocab();
+          console.log("Vocabulary loaded from Firebase!");
+        }
+      }
+    } catch (error) {
+      console.error("Error loading from Firebase:", error);
+    }
+  }
+
+  const originalSaveVocab = window.saveVocab;
+  window.saveVocab = function() {
+    if (typeof originalSaveVocab === 'function') {
+      originalSaveVocab();
+    } else if (localStorage) {
+      localStorage.setItem('readlens_vocab', JSON.stringify(state.vocabulary));
+    }
+    saveVocabToFirebase();
+  };
+</script>
+</body>
+</html>
