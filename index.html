@@ -985,7 +985,9 @@ const ACADEMIC_SYNONYMS = {
   implement: 'execute',
   restrict: 'limit',
 };
-const ACADEMIC_WORDS = Object.keys(ACADEMIC_SYNONYMS);
+const ACADEMIC_WORDS = Object.keys(ACADEMIC_SYNONYMS)
+// Автоматически скачиваем свежие карточки из облака при открытии сайта
+loadCardsFromDB();
 
 // ────────────────────────────────────────
 // UTILITIES
@@ -1003,7 +1005,14 @@ function showToast(msg, type = 'info', duration = 3000) {
 }
 
 function saveVocab() {
-  localStorage.setItem('rl_vocab', JSON.stringify(state.vocabulary));
+  // Твоя старая строчка:
+localStorage.setItem('rl_vocab', JSON.stringify(state.vocabulary));
+
+// Добавляем отправку в MongoDB:
+// (Убедись, что переменные называются именно так, либо посмотри как они названы в коде выше этой строки)
+if (typeof word !== 'undefined' && typeof translation !== 'undefined') {
+    saveCardToDB(word, translation, typeof currentContext !== 'undefined' ? currentContext : '');
+}
 }
 
 function cleanWord(w) {
@@ -1969,6 +1978,50 @@ window.submitLogin = async () => {
     }
     saveVocabToFirebase();
   };
+  // Функции для работы с базой данных MongoDB Atlas через Render бэкенд
+async function saveCardToDB(word, translation, context = '') {
+  try {
+    await fetch(`${BACKEND_URL}/api/cards`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ word, translation, context })
+    });
+  } catch (err) {
+    console.error('Ошибка сохранения карточки в базу:', err);
+  }
+}
+
+async function loadCardsFromDB() {
+  try {
+    const res = await fetch(`${BACKEND_URL}/api/cards`);
+    if (res.ok) {
+      const dbCards = await res.json();
+      // Преобразуем формат из MongoDB (_id, word, translation...) в формат твоего приложения
+      state.vocabulary = dbCards.map(c => ({
+        id: c._id,
+        word: c.word,
+        translation: c.translation,
+        context: c.context || ''
+      }));
+      // Обновляем localStorage на случай, если пропадет интернет
+      // Твоя старая строчка:
+localStorage.setItem('rl_vocab', JSON.stringify(state.vocabulary));
+
+// Добавляем отправку в MongoDB:
+// (Убедись, что переменные называются именно так, либо посмотри как они названы в коде выше этой строки)
+if (typeof word !== 'undefined' && typeof translation !== 'undefined') {
+    saveCardToDB(word, translation, typeof currentContext !== 'undefined' ? currentContext : '');
+}
+
+      // Если в твоем коде есть функция, которая перерисовывает список карточек на экране,
+      // вызови её здесь. Обычно она называется renderVocabulary() или renderCards().
+      if (typeof renderVocabulary === 'function') renderVocabulary();
+      else if (typeof renderCards === 'function') renderCards();
+    }
+  } catch (err) {
+    console.error('Ошибка загрузки карточек из базы:', err);
+  }
+}
 </script>
 </body>
 </html>
