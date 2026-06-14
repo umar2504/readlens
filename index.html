@@ -1976,34 +1976,40 @@ window.submitLogin = async () => {
     }
   }
 
-  const originalSaveVocab = window.saveVocab;
+const originalSaveVocab = window.saveVocab;
   window.saveVocab = function() {
     if (typeof originalSaveVocab === 'function') {
       originalSaveVocab();
     } else if (localStorage) {
       localStorage.setItem('readlens_vocab', JSON.stringify(state.vocabulary));
     }
+
+    // Пытаемся сохранить в Firebase (если он настроен)
     saveVocabToFirebase();
+
+    // И обязательно сохраняем в нашу новую MongoDB Atlas!
+    if (state.currentWord && state.currentWordDef) {
+      saveCardToDB(state.currentWord, state.currentWordDef, state.currentWordCtx || '');
+    }
   };
-  // Функции для работы с базой данных MongoDB Atlas через Render бэкенд
-// ──────────────────────────────────────────────────────────────────────
-// БАЗА ДАННЫХ MONGODB (ВСТАВЛЯЕМ СТРОГО ПЕРЕД ЗАКРЫВАЮЩИМ ТЕГОМ </script>)
-// ──────────────────────────────────────────────────────────────────────
+// Тут заканчивается какой-то твой старый код...
+  // ...
 
-async function saveCardToDB(word, translation, context = '') {
-  try {
-    if (typeof BACKEND_URL === 'undefined') return;
-    await fetch(`${BACKEND_URL}/api/cards`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ word, translation, context })
-    });
-  } catch (err) {
-    console.error('Ошибка сохранения карточки в базу:', err);
+  // НАШИ ФУНКЦИИ ДОЛЖНЫ БЫТЬ ВНУТРИ СКРИПТА:
+  async function saveCardToDB(word, translation, context = '') {
+    try {
+      if (typeof BACKEND_URL === 'undefined') return;
+      await fetch(`${BACKEND_URL}/api/cards`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ word, translation, context })
+      });
+    } catch (err) {
+      console.error('Ошибка сохранения карточки в базу:', err);
+    }
   }
-}
 
-async function loadCardsFromDB() {
+ async function loadCardsFromDB() {
   try {
     if (typeof BACKEND_URL === 'undefined') return;
     const res = await fetch(`${BACKEND_URL}/api/cards`);
@@ -2017,16 +2023,15 @@ async function loadCardsFromDB() {
       }));
       localStorage.setItem('rl_vocab', JSON.stringify(state.vocabulary));
 
-      // Проверяем, какая функция рендеринга у тебя есть в коде, и вызываем её
-      if (typeof renderVocabulary === 'function') renderVocabulary();
-      else if (typeof renderCards === 'function') renderCards();
+      // Вызываем правильную функцию отрисовки карточек:
+      if (typeof renderVocab === 'function') renderVocab();
     }
   } catch (err) {
     console.error('Ошибка загрузки карточек из базы:', err);
   }
 }
 
-// ЭТОТ ТЕГ УЖЕ ЕСТЬ В ТВОЕМ ФАЙЛЕ, СЛЕДИ, ЧТОБЫ ФУНКЦИИ БЫЛИ ВЫШЕ НЕГО:
+// ВОТ ЭТОТ ЗАКРЫВАЮЩИЙ ТЕГ ДОЛЖЕН ИДТИ СТРОГО ПОСЛЕ ФУНКЦИЙ:
 </script>
 </body>
 </html>
